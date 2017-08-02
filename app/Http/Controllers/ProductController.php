@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Categories;
 use Illuminate\Http\Request;
 use App\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -19,8 +20,11 @@ class ProductController extends Controller
     }
 
     public function create() {
-        $categories = Categories::getCategories();
-        return view('new', compact('categories'));
+        if ( Auth::check() ) {
+            $categories = Categories::getCategories();
+            return view('new', compact('categories'));
+        }
+        return redirect()->route('login');
     }
 
     /**
@@ -55,11 +59,28 @@ class ProductController extends Controller
         return view('product', compact('product'));
     }
 
-    public function update() {
+    public function update($id, Request $request) {
+        $product = Product::find($id);
 
+        $this->validate($request, [
+            'name'     => 'required|min:3',
+            'description'     => 'required|min:3',
+            'category'   => 'required',
+            'price' => 'required'
+        ]);
+
+        $product->name = $request['name'];
+        $product->description = $request['description'];
+        $product->category = $request['category'];
+        $product->price = $request['price'];
+        $product->save();
+
+        return redirect()->back();
     }
 
-    public function destroy() {
+    public function destroy($id) {
+        Product::destroy($id);
 
+        return redirect()->back();
     }
 }
