@@ -26,4 +26,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * App\Role relation.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Find out if User is an employee, based on if has any roles
+     *
+     * @return boolean
+     */
+     public function isAdmin()
+     {
+         $roles = $this->roles->toArray();
+         return !empty($roles);
+     }
 }
