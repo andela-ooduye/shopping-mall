@@ -18,3 +18,5 @@ Auth::routes();
 Route::get('/dashboard', 'HomeController@index')->name('home');
 
 Route::resource('products', 'ProductController');
+
+Route::any('/search', 'ProductController@search');

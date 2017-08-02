@@ -8,7 +8,7 @@
                     <div class="panel-heading">Add a new Product</div>
 
                     <div style="padding: 20px;">
-                        <form class="form-vertical" role="form" method="post" action="{{ route('products.store') }}">
+                        <form class="form-vertical" role="form" method="post" action="{{ route('products.store') }}" enctype="multipart/form-data">
                             <div class="form-group{{ $errors->has('category') ? ' has-error' : '' }}">
                                 <label for="category" class="control-label">Choose Category</label>
                                 <select class="form-control" name="category" id="category">
@@ -33,6 +33,13 @@
                                 <textarea name="description" class="form-control" id="description" rows="10" cols="10">{{ old('description') ?: '' }}</textarea>
                                 @if ($errors->has('description'))
                                     <span class="help-block">{{ $errors->first('description') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                                <label for="image" class="control-label">Image URL</label>
+                                <input type="file" name="image" class="form-control" id="image" value="{{ old('image') ?: '' }}">
+                                @if ($errors->has('image'))
+                                    <span class="help-block">{{ $errors->first('image') }}</span>
                                 @endif
                             </div>
                             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">

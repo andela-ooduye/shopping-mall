@@ -27,6 +27,22 @@ class ProductController extends Controller
         return redirect()->route('login');
     }
 
+    public function search(Request $request) {
+        $param = $request['param'];
+        $searchResult
+            = Product::where('name','LIKE','%'.$param.'%')
+            ->orWhere('description','LIKE','%'.$param.'%')
+            ->orWhere('price','LIKE','%'.$param.'%')
+            ->orWhere('category','LIKE','%'.$param.'%')
+            ->get();
+        if(count($searchResult) > 0) {
+            return view('welcome', compact('searchResult', 'param'));
+        } else {
+            return view ('welcome')->withMessage('No Product found. Try to search again !')->withParam($param);
+        }
+
+    }
+
     /**
      * Store a new product
      *
@@ -38,20 +54,27 @@ class ProductController extends Controller
         $this->validate($request, [
             'name'     => 'required|min:3',
             'description'     => 'required|min:3',
-            'image'    => 'required|min:3',
             'category'   => 'required',
             'price' => 'required'
         ]);
 
+        if( $request->hasFile('image') ) {
+            $file = $request->file('image');
+            $image_name = time()."-".$file->getClientOriginalName();
+            $file->move('images', $image_name);
+        } else {
+            $image_name = 'no-image.jpeg';
+        }
+
         Product::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'image' => $request->input('image'),
+            'image' => $image_name,
             'category' => $request->input('category'),
             'price' => $request->input('price')
         ]);
 
-        return redirect()->route('welcome');
+        return redirect()->route('home');
     }
 
     public function show($id) {
