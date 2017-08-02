@@ -14,10 +14,24 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testHomeRoute()
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
+    }
+
+    public function testSearchRoute()
+    {
+        $response = $this->get('/search');
+
+        $response->assertStatus(200);
+    }
+
+    public function testInvalidRoute()
+    {
+        $response = $this->get('/invalid');
+
+        $response->assertStatus(404);
     }
 }
