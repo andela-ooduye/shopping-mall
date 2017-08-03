@@ -2,9 +2,9 @@
 This is an online e-Shopping Mall App for Users to view the products available in a store
 
 # Requirements
-- PHP [Official Website](http://php.net/)
-- Composer [Official Website](https://getcomposer.org/)
-- Laravel [Official Website](https://laravel.com/)
+- PHP ([Official Website](http://php.net/))
+- Composer ([Official Website](https://getcomposer.org/))
+- Laravel ([Official Website](https://laravel.com/))
 
 # Installation
 - Clone repo
